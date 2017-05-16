@@ -67,17 +67,13 @@ if __name__ == "__main__":
                         help='Number of hosts to attach to each switch')
     options = parser.parse_args()
 
-    # extras = load_modules()
-    # print(extras)
-    # print(globals())
     exp_name = '{}_experiment'.format(options.experiment)
     exp_func = None
     if exp_name in globals():
         exp_func = globals()[exp_name]
-    # elif exp_name in extras:
-    #     exp_func = extras[exp_name]
     else:
         raise ValueError('No such experiment found')
+    # Setup the topology
     net = setup(options.topo, options.num_hosts, options.controller)
     net.start()
     exp_func(net)
