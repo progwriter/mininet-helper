@@ -33,7 +33,7 @@ class GMLTopo(Topo):
             offset = 1
         for n in g.nodes():
             self.addSwitch(str(n + offset))
-            for hnumber in range(1, 9):
+            for hnumber in range(1, num_hosts):
                 self.addHost('h{}.{}'.format(n + offset, hnumber))
                 self.addLink(str(n + offset), 'h{}.{}'.format(n + offset, hnumber))
 
