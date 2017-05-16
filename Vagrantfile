@@ -10,7 +10,7 @@ $init = <<SCRIPT
    python-all python-twisted-conch git tmux vim python-pip python-paramiko \
    python-sphinx openjdk-8-jdk maven curl unzip rabbitmq-server mongodb
   sudo pip install alabaster numpy cython msgpack-python networkx requests \
-   netaddr six bitstring progressbar2 flask flask_compress 
+   netaddr six bitstring progressbar2 flask flask_compress pika
   echo 'export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' >> ~/.profile
   source ~/.profile
 SCRIPT
