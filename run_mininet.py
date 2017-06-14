@@ -1,4 +1,5 @@
 import argparse
+import signal
 
 from mininet.cli import CLI
 from mininet.log import setLogLevel
@@ -7,6 +8,14 @@ from mininet.node import RemoteController
 
 from topology import GMLTopo
 from experiments import *
+
+
+def interrupt_handler(sig, frame):
+    global net
+    if sig == signal.SIGINT:
+        net.stop()
+
+signal.signal(signal.SIGINT, interrupt_handler)
 
 
 def setup(topo_filename, num_hosts, controller_ip):
@@ -18,11 +27,11 @@ def setup(topo_filename, num_hosts, controller_ip):
     # Set the host IPs in a particular way for easier debugging
     for h in topo.hosts():
         # Assume we can split by .
-        hnumber = int(h.split('.')[-1])
+        snumber, hnumber = map(int, h.lstrip('mh').split('.'))
         if topo.is_mbox(h):
-            net.get(h).setIP('10.0.{}.{}'.format(h.lstrip('m'), 128 + hnumber))
+            net.get(h).setIP('10.0.{}.{}'.format(snumber, 128 + hnumber))
         else:
-            net.get(h).setIP('10.0.{}.{}'.format(h.lstrip('h'), 1 + hnumber))
+            net.get(h).setIP('10.0.{}.{}'.format(snumber, hnumber))
 
     return net
 
@@ -34,25 +43,6 @@ def test_experiment(net):
     :return: 
     """
     CLI(net)
-
-
-# def load_modules():
-#     """
-#     Based loosely on http://stackoverflow.com/questions/951124/dynamic-loading-of-python-modules
-#     """
-#     dirname = 'experiments'
-#     result = {}
-#     lst = os.listdir(dirname)
-#     mods = []
-#     for f in lst:
-#         if os.path.isfile(f) and f.endswith('.py'):
-#             mods.append(f)
-#     # load the modules
-#     for m in mods:
-#         modname = m.split('.')[-1]
-#         print(modname)
-#         result[m] = import_module(modname, package=dirname)
-#     return result
 
 
 if __name__ == "__main__":
