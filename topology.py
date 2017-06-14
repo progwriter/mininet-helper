@@ -33,10 +33,9 @@ class GMLTopo(Topo):
             offset = 1
         for n in g.nodes():
             self.addSwitch(str(n + offset))
-            for hnumber in range(1, num_hosts):
-                self.addHost('h{}.{}'.format(n + offset, hnumber))
-                self.addLink(str(n + offset), 'h{}.{}'.format(n + offset, hnumber))
-
+            for hnumber in range(num_hosts):
+                self.addHost('h{}.{}'.format(n + offset, hnumber + offset))
+                self.addLink(str(n + offset), 'h{}.{}'.format(n + offset, hnumber + offset))
             if 'hasMbox' in g.node[n] and bool(g.node[n]['hasMbox']):
                 self.addHost('m{}'.format(n + offset))
                 self.addLink(str(n + offset), 'm{}'.format(n + offset))
