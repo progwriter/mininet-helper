@@ -24,4 +24,4 @@ def inject_experiment_params(net, tm_fname, num_hosts=1):
         p.wait()
 
 
-inject_experiment = partial(inject_experiment_params, tm_fname='test_tm_5', num_hosts=1)
+inject_experiment = partial(inject_experiment_params, tm_fname='sample_data/test_tm_5', num_hosts=1)
