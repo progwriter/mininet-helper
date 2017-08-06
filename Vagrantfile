@@ -88,6 +88,6 @@ end
   config.ssh.forward_x11 = false
 
   ## Folder config, for dev versions
-  config.vm.synced_folder ".", "/test"
+  config.vm.synced_folder ".", "/mn_helper"
 
 end
