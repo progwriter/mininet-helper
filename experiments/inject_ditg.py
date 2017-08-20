@@ -41,7 +41,8 @@ def inject_experiment_params(net, tm_fname, num_hosts=1):
             host_procs[host] = host.popen(['tmditg', '--tm', tm_fname,
                                            '-l', '10', '-i', str(tm_id), '-s', str(1.0 / num_hosts),
                                            '-d', json.dumps(mapping),
-                                           '-p', str(port)], stdout=sys.stdout, stderr=sys.stderr)
+                                           '-p', str(port)],
+                                          stdout=sys.stdout, stderr=sys.stderr)
     return InjectFuture(host_procs.values())
 
 
