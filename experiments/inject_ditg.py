@@ -7,6 +7,7 @@ import sys
 
 def inject_experiment_params(net, tm_fname, num_hosts=1):
     mapping = defaultdict(lambda: [])
+    base_port = 8999
     for host in net.hosts:
         # print(host.IP())
         if host.name.startswith('h'):
@@ -17,9 +18,11 @@ def inject_experiment_params(net, tm_fname, num_hosts=1):
     for host in net.hosts:
         if host.name.startswith('h'):
             tm_id = int(host.name.lstrip('h').split('.')[0])-1
+            port = base_port + tm_id
             host_procs[host] = host.popen(['tmditg', '--tm', tm_fname,
-                                           '-l', '60', '-i', str(tm_id), '-s', str(1.0 / num_hosts),
-                                           '-d', json.dumps(mapping)], stdout=sys.stdout, stderr=sys.stderr)
+                                           '-l', '10', '-i', str(tm_id), '-s', str(1.0 / num_hosts),
+                                           '-d', json.dumps(mapping),
+                                           '-p', port], stdout=sys.stdout, stderr=sys.stderr)
     for p in host_procs.values():
         p.wait()
 
