@@ -51,8 +51,7 @@ SCRIPT
 $tmgen = <<SCRIPT
   git clone https://github.com/progwriter/TMgen
   pushd TMgen
-  git checkout develop
-  sudo pip install .
+  sudo pip install -e .
   popd
 SCRIPT
 
