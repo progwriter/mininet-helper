@@ -4,6 +4,25 @@ from functools import partial
 
 import sys
 
+from .base import ExpBase
+
+
+class InjectFuture(ExpBase):
+    def __init__(self, processes):
+        # Save all process objects. Make a list so we can iterate multiple times
+        # over it if necessary
+        self.procs = list(processes)
+
+    def wait(self):
+        # Just wait for all processes
+        for p in self.procs:
+            p.wait()
+
+    def stop(self):
+        # Kill everything
+        for p in self.procs:
+            p.terminate()
+
 
 def inject_experiment_params(net, tm_fname, num_hosts=1):
     mapping = defaultdict(lambda: [])
@@ -23,8 +42,7 @@ def inject_experiment_params(net, tm_fname, num_hosts=1):
                                            '-l', '10', '-i', str(tm_id), '-s', str(1.0 / num_hosts),
                                            '-d', json.dumps(mapping),
                                            '-p', str(port)], stdout=sys.stdout, stderr=sys.stderr)
-    for p in host_procs.values():
-        p.wait()
+    return InjectFuture(host_procs.values())
 
 
 inject_experiment = partial(inject_experiment_params, tm_fname='sample_data/test_tm_5', num_hosts=1)

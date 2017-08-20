@@ -11,8 +11,10 @@ from experiments import *
 
 
 def interrupt_handler(sig, frame):
-    global net
+    global net, exp
     if sig == signal.SIGINT:
+        if exp is not None:
+            exp.stop()
         net.stop()
 
 signal.signal(signal.SIGINT, interrupt_handler)
@@ -66,5 +68,7 @@ if __name__ == "__main__":
     # Setup the topology
     net = setup(options.topo, options.num_hosts, options.controller)
     net.start()
-    exp_func(net)
+    exp = exp_func(net)
+    if exp is not None:
+        exp.wait()
     net.stop()
