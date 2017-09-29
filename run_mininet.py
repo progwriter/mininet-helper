@@ -68,6 +68,14 @@ if __name__ == "__main__":
     # Setup the topology
     net = setup(options.topo, options.num_hosts, options.controller)
     net.start()
+    hosts = list(net.hosts)
+    for hpair in zip(hosts, hosts[1:]):
+        net.ping(hpair, timeout='1')
+    net.ping((hosts[-1], hosts[0]), timeout='1')
+    # hosts[0].ping(hosts[1])
+    # for h in hosts[1:]:
+    #     h.ping(hosts[0])
+
     exp = exp_func(net)
     if exp is not None:
         exp.wait()
