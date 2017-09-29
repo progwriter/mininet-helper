@@ -8,7 +8,7 @@ class GMLTopo(Topo):
     GML files.
     """
 
-    def __init__(self, file_name, num_hosts, **params):
+    def __init__(self, file_name, num_hosts, withmboxes=False, **params):
         """
         Create a new topology 
         :param file_name:  the filename (or special name, e.g., linear) of the topology
@@ -34,11 +34,11 @@ class GMLTopo(Topo):
         for n in g.nodes():
             self.addSwitch(str(n + offset))
             for hnumber in range(num_hosts):
-                self.addHost('h{}.{}'.format(n + offset, hnumber + offset))
-                self.addLink(str(n + offset), 'h{}.{}'.format(n + offset, hnumber + offset))
-            if 'hasMbox' in g.node[n] and bool(g.node[n]['hasMbox']):
-                self.addHost('m{}'.format(n + offset))
-                self.addLink(str(n + offset), 'm{}'.format(n + offset))
+                self.addHost('h{}_{}'.format(n + offset, hnumber + offset))
+                self.addLink(str(n + offset), 'h{}_{}'.format(n + offset, hnumber + offset))
+            if withmboxes and 'hasMbox' in g.node[n] and bool(g.node[n]['hasMbox']):
+                self.addHost('m{}_1'.format(n + offset))
+                self.addLink(str(n + offset), 'm{}_1'.format(n + offset))
 
         # add links here:
         for u, v in g.to_undirected().edges():
