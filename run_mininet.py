@@ -10,14 +10,14 @@ from topology import GMLTopo
 from experiments import *
 
 
-def interrupt_handler(sig, frame):
-    global net, exp
-    if sig == signal.SIGINT:
-        if exp is not None:
-            exp.stop()
-        net.stop()
+# def interrupt_handler(sig, frame):
+#     global net, exp
+#     if sig == signal.SIGINT:
+#         if exp is not None:
+#             exp.stop()
+#         net.stop()
 
-signal.signal(signal.SIGINT, interrupt_handler)
+# signal.signal(signal.SIGINT, interrupt_handler)
 
 
 def setup(topo_filename, num_hosts, controller_ip):
