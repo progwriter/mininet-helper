@@ -29,7 +29,7 @@ def setup(topo_filename, num_hosts, controller_ip):
     # Set the host IPs in a particular way for easier debugging
     for h in topo.hosts():
         # Assume we can split by .
-        snumber, hnumber = map(int, h.lstrip('mh').split('.'))
+        snumber, hnumber = map(int, h.lstrip('mh').split('_'))
         if topo.is_mbox(h):
             net.get(h).setIP('10.0.{}.{}'.format(snumber, 128 + hnumber))
         else:
